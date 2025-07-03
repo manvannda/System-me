@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="km">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ប្រព័ន្ធតាមដានហិរញ្ញវត្ថុសកលអន្តរកម្ម</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals & Soft Teal -->
+    <!-- Application Structure Plan: កម្មវិធីទំព័រតែមួយដែលមានរបាររុករកខាងលើថេរដើម្បីប្តូររវាងទិដ្ឋភាពផ្សេងៗគ្នា (ទិដ្ឋភាពទូទៅ, លក្ខណៈពិសេស, បញ្ចូលប្រតិបត្តិការ, ស្ថាបត្យកម្ម, គំរូទិន្នន័យ, បច្ចេកវិទ្យា)។ រចនាសម្ព័ន្ធផ្ទាំងនេះមានវិចារណញាណជាងសម្រាប់ការស្វែងយល់ឯកសាររចនាជាងការរមូរតាមលំដាប់លំដោយ។ វាអនុញ្ញាតឱ្យអ្នកប្រើប្រាស់លោតទៅផ្នែកដែលចាប់អារម្មណ៍ ដែលជំរុញការស្វែងយល់មិនមែនលីនេអ៊ែរ។ ផ្នែក 'លក្ខណៈពិសេសស្នូល' ត្រូវបានរចនាឡើងដើម្បីមានអន្តរកម្មខ្ពស់ ជាមួយនឹងទិដ្ឋភាពមេ-លម្អិតដែលការជ្រើសរើសលក្ខណៈពិសេសមួយបង្ហាញព័ត៌មានលម្អិតរបស់វា និងការមើលឃើញគំនូសតាងក្លែងក្លាយ ផ្តល់នូវការមើលជាមុនជាក់ស្តែងនៃសមត្ថភាពផលិតផលចុងក្រោយ។ ផ្ទាំង 'បញ្ចូលប្រតិបត្តិការ' ថ្មីផ្តល់នូវទម្រង់ជាក់លាក់សម្រាប់ការបញ្ចូលចំណូល/ចំណាយ ដែលឆ្លើយតបដោយផ្ទាល់ទៅនឹងសំណើរបស់អ្នកប្រើប្រាស់សម្រាប់កន្លែងកត់ត្រាប្រតិបត្តិការ។ រចនាសម្ព័ន្ធនេះផ្តល់អាទិភាពដល់ការចូលរួមរបស់អ្នកប្រើប្រាស់ និងការបែងចែកព័ត៌មានច្បាស់លាស់ជាងការឆ្លុះបញ្ចាំងប្លង់របាយការណ៍ដើម។ -->
+    <!-- Visualization & Content Choices:
+        - ព័ត៌មានរបាយការណ៍: សេចក្តីផ្តើម -> គោលដៅ: កំណត់ដំណាក់កាល -> ការបង្ហាញ: ផ្ទាំង 'ទិដ្ឋភាពទូទៅ' ស្អាតជាមួយនឹងអត្ថបទណែនាំ -> អន្តរកម្ម: អត្ថបទឋិតិវន្ត -> ហេតុផល: ផ្តល់បរិបទដំបូង។
+        - ព័ត៌មានរបាយការណ៍: លក្ខណៈពិសេសស្នូល (ផ្នែកទី 1) -> គោលដៅ: លម្អិតសមត្ថភាពប្រព័ន្ធដោយអន្តរកម្ម -> ការបង្ហាញ: ប្លង់ពីរជួរ។ ឆ្វេង: បញ្ជីលក្ខណៈពិសេសដែលអាចចុចបាន។ ស្តាំ: តំបន់មាតិកាឌីណាមិកជាមួយនឹងអត្ថបទ និងការមើលឃើញគំនូសតាង Chart.js ក្លែងក្លាយសម្រាប់ការ 'វិភាគចំណាយ' និងរបារវឌ្ឍនភាពសម្រាប់ការ 'គ្រប់គ្រងថវិកា' -> អន្តរកម្ម: ចុចដើម្បីធ្វើបច្ចុប្បន្នភាពមាតិកា -> ហេតុផល: បំបែកលក្ខណៈពិសេសស្មុគស្មាញទៅជាផ្នែកដែលអាចរំលាយបាន គួរឱ្យចាប់អារម្មណ៍ និងបង្ហាញពីគំនិត UI ដូចជាគំនូសតាង និងរបារវឌ្ឍនភាព។ បណ្ណាល័យ: Chart.js ។
+        - ព័ត៌មានរបាយការណ៍: ស្ថាបត្យកម្ម (ផ្នែកទី 2) -> គោលដៅ: មើលឃើញសមាសធាតុរបស់ប្រព័ន្ធ -> ការបង្ហាញ: ដ្យាក្រាមបីជួរដែលបង្កើតឡើងដោយ HTML/Tailwind CSS តំណាងឱ្យស្រទាប់ Frontend, Backend និង Database -> អន្តរកម្ម: ឥទ្ធិពល Hover លើសមាសធាតុអាចបង្ហាញ tooltips (មិនបានអនុវត្តដើម្បីរក្សាភាពសាមញ្ញ ប៉ុន្តែរចនាសម្ព័ន្ធអនុញ្ញាត) -> ហេតុផល: ដ្យាក្រាមដែលមើលឃើញប្រសើរជាងអត្ថបទសម្រាប់ការយល់ដឹងពីទំនាក់ទំនងស្ថាបត្យកម្ម។ វិធីសាស្ត្រ: HTML/Tailwind ។
+        - ព័ត៌មានរបាយការណ៍: គំរូទិន្នន័យ (ផ្នែកទី 3) -> គោលដៅ: ពន្យល់ពី schema មូលដ្ឋានទិន្នន័យ -> ការបង្ហាញ: កាតរចនាប័ទ្ម Accordion សម្រាប់ collection ទិន្នន័យនីមួយៗ -> អន្តរកម្ម: ចុចដើម្បីពង្រីក/បង្រួម និងមើល fields -> ហេតុផល: គ្រប់គ្រងដង់ស៊ីតេព័ត៌មាន អនុញ្ញាតឱ្យអ្នកប្រើប្រាស់ផ្តោតលើ entity មួយក្នុងពេលតែមួយ។ វិធីសាស្ត្រ: HTML/Tailwind/JS ។
+        - ព័ត៌មានរបាយការណ៍: បច្ចេកវិទ្យា (ផ្នែកទី 5) -> គោលដៅ: បង្ហាញបច្ចេកវិទ្យា -> ការបង្ហាញ: ក្រឡាចត្រង្គនៃកាតដែលមានរចនាប័ទ្ម -> អន្តរកម្ម: ការបង្ហាញឋិតិវន្ត -> ហេតុផល: មើលទៅទាក់ទាញជាង និងងាយស្រួលស្កេនជាងបញ្ជី។ វិធីសាស្ត្រ: HTML/Tailwind ។
+        - លក្ខណៈពិសេសថ្មី: បញ្ចូលប្រតិបត្តិការ -> គោលដៅ: ផ្តល់តំបន់បញ្ចូលមុខងារ -> ការបង្ហាញ: ទម្រង់ដែលមានវាលបញ្ចូលសម្រាប់ចំនួនទឹកប្រាក់ ប្រភេទ ប្រភេទ ការពិពណ៌នា កាលបរិច្ឆេទ និងរូបិយប័ណ្ណ បូកនឹងការបង្ហាញប្រតិបត្តិការថ្មីៗ -> អន្តរកម្ម: ការបញ្ជូនទម្រង់ ការធ្វើបច្ចុប្បន្នភាពការបង្ហាញឌីណាមិក -> ហេតុផល: បំពេញដោយផ្ទាល់នូវសំណើរបស់អ្នកប្រើប្រាស់សម្រាប់ចំណុចបញ្ចូល ធ្វើឱ្យប្រព័ន្ធកាន់តែជាក់ស្តែង។ វិធីសាស្ត្រ: HTML/Tailwind/JS ។
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        /* @font-face rule for Khmer Kbal Thom font */
+        /* You need to provide the path to your Khmer Kbal Thom font file (.ttf, .woff, .woff2) here */
+        /* Example:
+        @font-face {
+            font-family: 'Khmer Kbal Thom';
+            src: url('fonts/KhmerKbalThom.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        */
+
+        /* Apply Khmer Kbal Thom font to the body and fallback to Inter, sans-serif */
+        body {
+            font-family: 'Khmer Kbal Thom', 'Inter', sans-serif;
+        }
+
+        .active-nav {
+            color: #0d9488; /* Teal-700 */
+            border-bottom-color: #0d9488; /* Teal-700 */
+        }
+        .inactive-nav {
+            color: #4b5563; /* Gray-600 */
+            border-bottom-color: transparent;
+        }
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+        .feature-button.active {
+            background-color: #ccfbf1; /* Teal-100 */
+            color: #134e4a; /* Teal-900 */
+        }
+        .data-model-card header {
+            cursor: pointer;
+        }
+        .data-model-card .content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-in-out;
+        }
+        .data-model-card.open .content {
+            max-height: 500px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 320px;
+            max-height: 350px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div id="app" class="min-h-screen flex flex-col">
+        <header class="bg-white/80 backdrop-blur-lg shadow-sm sticky top-0 z-10">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center py-4">
+                    <h1 class="text-2xl font-bold text-teal-700">ប្រព័ន្ធតាមដានហិរញ្ញវត្ថុសកល</h1>
+                    <nav class="hidden md:flex items-center space-x-4 lg:space-x-6" id="desktop-nav">
+                        <button data-target="overview" class="nav-button text-sm font-medium border-b-2 pb-1 transition-colors duration-200">ទិដ្ឋភាពទូទៅ</button>
+                        <button data-target="features" class="nav-button text-sm font-medium border-b-2 pb-1 transition-colors duration-200">លក្ខណៈពិសេសស្នូល</button>
+                        <button data-target="add-transaction" class="nav-button text-sm font-medium border-b-2 pb-1 transition-colors duration-200">បញ្ចូលប្រតិបត្តិការ</button>
+                        <button data-target="architecture" class="nav-button text-sm font-medium border-b-2 pb-1 transition-colors duration-200">ស្ថាបត្យកម្ម</button>
+                        <button data-target="datamodel" class="nav-button text-sm font-medium border-b-2 pb-1 transition-colors duration-200">គំរូទិន្នន័យ</button>
+                        <button data-target="techstack" class="nav-button text-sm font-medium border-b-2 pb-1 transition-colors duration-200">បច្ចេកវិទ្យា</button>
+                    </nav>
+                    <div class="md:hidden">
+                        <select id="mobile-nav" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500">
+                            <option value="overview">ទិដ្ឋភាពទូទៅ</option>
+                            <option value="features">លក្ខណៈពិសេសស្នូល</option>
+                            <option value="add-transaction">បញ្ចូលប្រតិបត្តិការ</option>
+                            <option value="architecture">ស្ថាបត្យកម្ម</option>
+                            <option value="datamodel">គំរូទិន្នន័យ</option>
+                            <option value="techstack">បច្ចេកវិទ្យា</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+            <div id="overview" class="content-section">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-4">ទិដ្ឋភាពទូទៅនៃការរចនាប្រព័ន្ធ</h2>
+                    <p class="text-gray-600 mb-4 text-lg leading-relaxed">ឯកសារអន្តរកម្មនេះគូសបញ្ជាក់ពីការរចនាប្រព័ន្ធគ្រប់គ្រងចំណូលចំណាយប្រចាំថ្ងៃជាសកលដែលងាយស្រួលប្រើប្រាស់ និងរឹងមាំ។ ប្រព័ន្ធនេះត្រូវបានរចនាឡើងដើម្បីផ្តល់នូវសមត្ថភាពតាមដាន វិភាគ និងគ្រប់គ្រងហិរញ្ញវត្ថុប្រកបដោយប្រសិទ្ធភាពសម្រាប់អ្នកប្រើប្រាស់ដែលធ្វើប្រតិបត្តិការជាមួយរូបិយប័ណ្ណច្រើន និងទាមទារការចូលប្រើប្រាស់ឆ្លងឧបករណ៍ផ្សេងៗ។</p>
+                    <div class="mt-8 grid md:grid-cols-3 gap-6 text-center">
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-teal-800">សកល & ពហុរូបិយប័ណ្ណ</h3>
+                            <p class="text-teal-700 mt-2">តាមដានហិរញ្ញវត្ថុជារូបិយប័ណ្ណណាមួយជាមួយនឹងអត្រាប្តូរប្រាក់តាមពេលវេលាជាក់ស្តែង។</p>
+                        </div>
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-teal-800">ការវិភាគស៊ីជម្រៅ</h3>
+                            <p class="text-teal-700 mt-2">បង្កើតរបាយការណ៍ កំណត់ថវិកា និងមើលឃើញការចំណាយជាមួយនឹងគំនូសតាងអន្តរកម្ម។</p>
+                        </div>
+                        <div class="bg-teal-50 p-6 rounded-lg">
+                            <h3 class="text-xl font-semibold text-teal-800">សុវត្ថិភាព & ធ្វើសមកាលកម្ម</h3>
+                            <p class="text-teal-700 mt-2">ទិន្នន័យត្រូវបានរក្សាទុកដោយសុវត្ថិភាពនៅក្នុង cloud និងធ្វើសមកាលកម្មតាមពេលវេលាជាក់ស្តែងនៅទូទាំងឧបករណ៍ទាំងអស់របស់អ្នក។</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="features" class="content-section">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">លក្ខណៈពិសេសស្នូល</h2>
+                    <p class="text-gray-600 mb-6">ស្វែងយល់ពីមុខងារសំខាន់ៗរបស់ប្រព័ន្ធ។ ចុចលើលក្ខណៈពិសេសនៅខាងឆ្វេងដើម្បីមើលព័ត៌មានលម្អិត និងការបង្ហាញដែលមើលឃើញពីរបៀបដែលវានឹងបង្ហាញនៅក្នុងកម្មវិធី។</p>
+                    <div class="flex flex-col md:flex-row gap-8">
+                        <aside class="md:w-1/3 lg:w-1/4">
+                            <div id="feature-list" class="flex flex-row md:flex-col flex-wrap gap-2">
+                                <button data-feature="tracking" class="feature-button w-full text-left p-3 rounded-lg transition-colors duration-200 font-medium">តាមដានចំណូល/ចំណាយ</button>
+                                <button data-feature="reporting" class="feature-button w-full text-left p-3 rounded-lg transition-colors duration-200 font-medium">របាយការណ៍ហិរញ្ញវត្ថុ</button>
+                                <button data-feature="budgeting" class="feature-button w-full text-left p-3 rounded-lg transition-colors duration-200 font-medium">ការគ្រប់គ្រងថវិកា</button>
+                                <button data-feature="analysis" class="feature-button w-full text-left p-3 rounded-lg transition-colors duration-200 font-medium">ការវិភាគចំណាយ</button>
+                                <button data-feature="recurring" class="feature-button w-full text-left p-3 rounded-lg transition-colors duration-200 font-medium">ប្រតិបត្តិការកើតឡើងដដែលៗ</button>
+                                <button data-feature="multi-currency" class="feature-button w-full text-left p-3 rounded-lg transition-colors duration-200 font-medium">គាំទ្រពហុរូបិយប័ណ្ណ</button>
+                            </div>
+                        </aside>
+                        <div id="feature-display" class="md:w-2/3 lg:w-3/4 bg-gray-50 p-6 rounded-lg border">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="add-transaction" class="content-section">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">បញ្ចូលប្រតិបត្តិការថ្មី</h2>
+                    <p class="text-gray-600 mb-6">ប្រើទម្រង់ខាងក្រោមដើម្បីកត់ត្រាចំណូល ឬចំណាយថ្មីរបស់អ្នក។ បំពេញព័ត៌មានលម្អិតទាំងអស់ដើម្បីតាមដានហិរញ្ញវត្ថុរបស់អ្នកបានត្រឹមត្រូវ។</p>
+                    <form id="transaction-form" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">ចំនួនទឹកប្រាក់</label>
+                            <input type="number" id="amount" name="amount" step="0.01" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">ប្រភេទប្រតិបត្តិការ</label>
+                            <div class="mt-1 flex space-x-4">
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="type" value="income" class="form-radio text-teal-600" checked>
+                                    <span class="ml-2 text-gray-700">ចំណូល</span>
+                                </label>
+                                <label class="inline-flex items-center">
+                                    <input type="radio" name="type" value="expense" class="form-radio text-red-600">
+                                    <span class="ml-2 text-gray-700">ចំណាយ</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="category" class="block text-sm font-medium text-gray-700 mb-1">ប្រភេទ</label>
+                            <select id="category" name="category" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2">
+                                <!-- Categories will be populated by JS -->
+                            </select>
+                        </div>
+                        <div>
+                            <label for="currency" class="block text-sm font-medium text-gray-700 mb-1">រូបិយប័ណ្ណ</label>
+                            <select id="currency" name="currency" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2">
+                                <!-- Currencies will be populated by JS -->
+                            </select>
+                        </div>
+                        <div class="col-span-1 md:col-span-2">
+                            <label for="description" class="block text-sm font-medium text-gray-700 mb-1">ការពិពណ៌នា (ស្រេចចិត្ត)</label>
+                            <textarea id="description" name="description" rows="3" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2"></textarea>
+                        </div>
+                        <div>
+                            <label for="date" class="block text-sm font-medium text-gray-700 mb-1">កាលបរិច្ឆេទ</label>
+                            <input type="date" id="date" name="date" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-teal-500 focus:ring-teal-500 p-2">
+                        </div>
+                        <div class="col-span-1 md:col-span-2 flex justify-end">
+                            <button type="submit" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-teal-600 hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500 transition-colors duration-200">
+                                បញ្ចូលប្រតិបត្តិការ
+                            </button>
+                        </div>
+                    </form>
+
+                    <div class="mt-10">
+                        <h3 class="text-2xl font-bold text-gray-800 mb-4">ប្រតិបត្តិការថ្មីៗ</h3>
+                        <div id="recent-transactions" class="space-y-3">
+                            <p class="text-gray-500 text-center" id="no-transactions-message">មិនទាន់មានប្រតិបត្តិការណាមួយត្រូវបានបញ្ចូលនៅឡើយទេ។</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="architecture" class="content-section">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">ស្ថាបត្យកម្មប្រព័ន្ធ</h2>
+                    <p class="text-gray-600 mb-8">ប្រព័ន្ធនេះប្រើប្រាស់ស្ថាបត្យកម្ម client-server ទំនើប និងអាចពង្រីកបាន។ ការរចនានេះបំបែកចំណុចប្រទាក់អ្នកប្រើប្រាស់ (Frontend) ចេញពីតក្កវិជ្ជាអាជីវកម្ម និងការផ្ទុកទិន្នន័យ (Backend) ដែលអនុញ្ញាតឱ្យមានការអភិវឌ្ឍន៍ ការដាក់ពង្រាយ និងការពង្រីកសេវាកម្មដោយឯករាជ្យ។</p>
+                    <div class="grid md:grid-cols-3 gap-6 text-center font-sans">
+                        <div class="bg-blue-50 border-2 border-blue-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-blue-800 mb-4">ផ្នែកខាងមុខ (Clients)</h3>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-md shadow-sm"><span class="font-semibold">កម្មវិធីគេហទំព័រ</span><p class="text-sm text-gray-500">(React.js)</p></div>
+                                <div class="bg-white p-4 rounded-md shadow-sm"><span class="font-semibold">កម្មវិធីទូរស័ព្ទ</span><p class="text-sm text-gray-500">(iOS & Android)</p></div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center text-4xl text-gray-400 font-thin">→</div>
+                        <div class="bg-purple-50 border-2 border-purple-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-purple-800 mb-4">ផ្នែកខាងក្រោយ (Serverless)</h3>
+                            <div class="space-y-4">
+                                <div class="bg-white p-3 rounded-md shadow-sm"><span class="font-semibold">ការផ្ទៀងផ្ទាត់</span><p class="text-sm text-gray-500">(Firebase Auth)</p></div>
+                                <div class="bg-white p-3 rounded-md shadow-sm"><span class="font-semibold">API & តក្កវិជ្ជា</span><p class="text-sm text-gray-500">(Cloud Functions)</p></div>
+                                <div class="bg-white p-3 rounded-md shadow-sm"><span class="font-semibold">សេវាកម្មខាងក្រៅ</span><p class="text-sm text-gray-500">(Exchange Rate API)</p></div>
+                            </div>
+                        </div>
+                        <div class="hidden md:flex items-center justify-center text-4xl text-gray-400 font-thin">→</div>
+                        <div class="col-span-full md:col-span-1"></div>
+                        <div class="bg-green-50 border-2 border-green-200 rounded-lg p-6">
+                            <h3 class="text-xl font-bold text-green-800 mb-4">មូលដ្ឋានទិន្នន័យ</h3>
+                            <div class="space-y-4">
+                                <div class="bg-white p-4 rounded-md shadow-sm"><span class="font-semibold">មូលដ្ឋានទិន្នន័យ Cloud</span><p class="text-sm text-gray-500">(Firestore)</p></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="datamodel" class="content-section">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">គំរូទិន្នន័យ</h2>
+                    <p class="text-gray-600 mb-8">ទិន្នន័យត្រូវបានរៀបចំនៅក្នុងមូលដ្ឋានទិន្នន័យ NoSQL (Firestore) ដោយប្រើប្រាស់ collections នៃ documents។ គំរូនេះមានភាពបត់បែន និងអាចពង្រីកបានយ៉ាងងាយស្រួល។ ចុចលើ collection នីមួយៗដើម្បីមើល fields របស់វា។ ទិន្នន័យជាក់លាក់របស់អ្នកប្រើប្រាស់ដូចជាប្រតិបត្តិការ និងប្រភេទត្រូវបានរក្សាទុកនៅក្នុង subcollections ដើម្បីសុវត្ថិភាព និងការ query ប្រកបដោយប្រសិទ្ធភាព។</p>
+                    <div class="space-y-4">
+                        <div class="data-model-card border rounded-lg overflow-hidden">
+                            <header class="bg-gray-100 p-4 flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-gray-700">User Collection</h3>
+                                <span class="text-gray-500 text-sm">ចុចដើម្បីពង្រីក</span>
+                            </header>
+                            <div class="content p-4 border-t">
+                                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                    <li><code class="bg-gray-200 p-1 rounded">userId</code> (Primary Key)</li>
+                                    <li><code class="bg-gray-200 p-1 rounded">email</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">preferredCurrency</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">preferredLanguage</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-model-card border rounded-lg overflow-hidden">
+                            <header class="bg-gray-100 p-4 flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-gray-700">Transaction Collection</h3>
+                                <span class="text-gray-500 text-sm">(Subcollection of User)</span>
+                            </header>
+                            <div class="content p-4 border-t">
+                                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                    <li><code class="bg-gray-200 p-1 rounded">transactionId</code> (Primary Key)</li>
+                                    <li><code class="bg-gray-200 p-1 rounded">amount</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">currency</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">type</code> (Income/Expense)</li>
+                                    <li><code class="bg-gray-200 p-1 rounded">date</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">categoryId</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">isRecurring</code> (Boolean)</li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="data-model-card border rounded-lg overflow-hidden">
+                            <header class="bg-gray-100 p-4 flex justify-between items-center">
+                                <h3 class="text-lg font-semibold text-gray-700">Budget Collection</h3>
+                                <span class="text-gray-500 text-sm">(Subcollection of User)</span>
+                            </header>
+                             <div class="content p-4 border-t">
+                                <ul class="list-disc list-inside space-y-1 text-gray-600">
+                                    <li><code class="bg-gray-200 p-1 rounded">budgetId</code> (Primary Key)</li>
+                                    <li><code class="bg-gray-200 p-1 rounded">categoryId</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">amount</code></li>
+                                    <li><code class="bg-gray-200 p-1 rounded">period</code> (Monthly/Weekly)</li>
+                                    <li><code class="bg-gray-200 p-1 rounded">startDate</code></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="techstack" class="content-section">
+                <div class="bg-white p-6 sm:p-8 rounded-xl shadow-sm">
+                    <h2 class="text-3xl font-bold text-gray-800 mb-2">បច្ចេកវិទ្យាដែលបានស្នើឡើង</h2>
+                    <p class="text-gray-600 mb-8">ប្រព័ន្ធនេះត្រូវបានបង្កើតឡើងនៅលើមូលដ្ឋានគ្រឹះនៃបច្ចេកវិទ្យាទំនើប គួរឱ្យទុកចិត្ត និងអាចពង្រីកបានដែលត្រូវបានជ្រើសរើសដើម្បីផ្តល់នូវបទពិសោធន៍អ្នកប្រើប្រាស់ដែលមានគុណភាពខ្ពស់ និងធានាបាននូវការថែទាំរយៈពេលវែង។</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <div class="border rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-700">ផ្នែកខាងមុខគេហទំព័រ</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">React.js</span>
+                                <span class="bg-cyan-100 text-cyan-800 px-3 py-1 rounded-full text-sm font-medium">Tailwind CSS</span>
+                                <span class="bg-rose-100 text-rose-800 px-3 py-1 rounded-full text-sm font-medium">Chart.js</span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-700">ផ្នែកខាងមុខទូរស័ព្ទ</h3>
+                             <div class="flex flex-wrap gap-2">
+                                <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">React Native</span>
+                                <span class="text-gray-500 italic text-sm">ឬ Native Swift/Kotlin</span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-700">ផ្នែកខាងក្រោយ</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Firebase Auth</span>
+                                <span class="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-sm font-medium">Cloud Functions</span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-6">
+                            <h3 class="text-xl font-semibold mb-2 text-gray-700">មូលដ្ឋានទិន្នន័យ</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">Firestore</span>
+                            </div>
+                        </div>
+                        <div class="border rounded-lg p-6">
+                             <h3 class="text-xl font-semibold mb-2 text-gray-700">External APIs</h3>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="bg-indigo-100 text-indigo-800 px-3 py-1 rounded-full text-sm font-medium">Currency Exchange API</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Select DOM elements
+            const navButtons = document.querySelectorAll('.nav-button');
+            const mobileNav = document.getElementById('mobile-nav');
+            const contentSections = document.querySelectorAll('.content-section');
+            const featureList = document.getElementById('feature-list');
+            const featureDisplay = document.getElementById('feature-display');
+            const dataModelCards = document.querySelectorAll('.data-model-card');
+            const transactionForm = document.getElementById('transaction-form');
+            const recentTransactionsDiv = document.getElementById('recent-transactions');
+            const noTransactionsMessage = document.getElementById('no-transactions-message');
+            const categorySelect = document.getElementById('category');
+            const currencySelect = document.getElementById('currency');
+            const dateInput = document.getElementById('date');
+
+            // Object to store chart instances
+            let spendingChartInstance = null;
+            // Array to store transactions
+            let transactions = [];
+
+            // Data for each feature
+            const featuresData = {
+                tracking: {
+                    title: 'តាមដានចំណូល & ចំណាយ',
+                    description: 'អ្នកប្រើប្រាស់អាចកត់ត្រាប្រតិបត្តិការដោយវិចារណញាណជាមួយនឹងព័ត៌មានលម្អិតចាំបាច់ទាំងអស់ដូចជាចំនួនទឹកប្រាក់ កាលបរិច្ឆេទ ប្រភេទ និងវិធីបង់ប្រាក់។ ប្រភេទផ្ទាល់ខ្លួនអនុញ្ញាតឱ្យមានការតាមដានផ្ទាល់ខ្លួន។',
+                    viz: `
+                        <h4 class="font-semibold text-gray-700 mb-4 text-center">ឧទាហរណ៍កំណត់ហេតុប្រតិបត្តិការ</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">ប្រាក់ខែ</p><p class="text-sm text-gray-500">ចំណូលប្រចាំខែ</p></div>
+                                <p class="font-semibold text-green-600">+$2,500.00</p>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">គ្រឿងទេស</p><p class="text-sm text-gray-500">អាហារ</p></div>
+                                <p class="font-semibold text-red-600">-$75.40</p>
+                            </div>
+                             <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">ថ្លៃជួល</p><p class="text-sm text-gray-500">លំនៅដ្ឋាន</p></div>
+                                <p class="font-semibold text-red-600">-$800.00</p>
+                            </div>
+                        </div>
+                    `
+                },
+                reporting: {
+                    title: 'របាយការណ៍ហិរញ្ញវត្ថុ',
+                    description: 'បង្កើតរបាយការណ៍ប្រចាំថ្ងៃ ប្រចាំសប្តាហ៍ ឬប្រចាំខែដែលអាចប្ដូរតាមបំណងបាន។ វិភាគចំណូលធៀបនឹងចំណាយ មើលការបំបែកប្រភេទ និងនាំចេញទិន្នន័យទៅ CSV ឬ PDF សម្រាប់ការវិភាគក្រៅបណ្តាញ។',
+                    viz: `
+                        <h4 class="font-semibold text-gray-700 mb-4 text-center">ឧទាហរណ៍សង្ខេបប្រចាំខែ</h4>
+                        <div class="bg-white p-4 rounded-lg shadow-sm space-y-3">
+                            <div class="flex justify-between"><span class="text-gray-600">ចំណូលសរុប:</span><span class="font-semibold text-green-600">$2,500.00</span></div>
+                            <div class="flex justify-between"><span class="text-gray-600">ចំណាយសរុប:</span><span class="font-semibold text-red-600">$1,250.00</span></div>
+                            <hr/>
+                            <div class="flex justify-between"><span class="font-bold text-gray-700">ប្រាក់សន្សំសុទ្ធ:</span><span class="font-bold text-blue-600">$1,250.00</span></div>
+                        </div>
+                    `
+                },
+                budgeting: {
+                    title: 'ការគ្រប់គ្រងថវិកា',
+                    description: 'កំណត់ថវិកាប្រចាំខែ ឬប្រចាំសប្តាហ៍សម្រាប់ប្រភេទចំណាយជាក់លាក់ ដើម្បីគ្រប់គ្រងការចំណាយរបស់អ្នក។ ប្រព័ន្ធនេះផ្តល់នូវសូចនាករវឌ្ឍនភាពដែលមើលឃើញ និងជូនដំណឹងអ្នកនៅពេលអ្នកជិតដល់ដែនកំណត់របស់អ្នក។',
+                    viz: `
+                        <h4 class="font-semibold text-gray-700 mb-4 text-center">វឌ្ឍនភាពថវិកា</h4>
+                        <div class="space-y-4">
+                            <div>
+                                <div class="flex justify-between mb-1"><span class="font-medium text-gray-600">ថវិកាអាហារ</span><span class="text-sm text-gray-500">$250 / $400</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-yellow-400 h-4 rounded-full" style="width: 62.5%"></div></div>
+                            </div>
+                             <div>
+                                <div class="flex justify-between mb-1"><span class="font-medium text-gray-600">ថវិកាដឹកជញ្ជូន</span><span class="text-sm text-gray-500">$80 / $150</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-green-400 h-4 rounded-full" style="width: 53%"></div></div>
+                            </div>
+                             <div>
+                                <div class="flex justify-between mb-1"><span class="font-medium text-gray-600">កម្សាន្ត</span><span class="text-sm text-gray-500">$190 / $200</span></div>
+                                <div class="w-full bg-gray-200 rounded-full h-4"><div class="bg-red-400 h-4 rounded-full" style="width: 95%"></div></div>
+                            </div>
+                        </div>
+                    `
+                },
+                analysis: {
+                    title: 'ការវិភាគចំណាយ',
+                    description: 'មើលឃើញទិន្នន័យហិរញ្ញវត្ថុរបស់អ្នកជាមួយនឹងគំនូសតាង និងក្រាហ្វអន្តរកម្ម។ ស្វែងយល់ពីកន្លែងដែលលុយរបស់អ្នកទៅជាមួយនឹងការបំបែកប្រភេទ និងតាមដាននិន្នាការចំណូលធៀបនឹងចំណាយតាមពេលវេលា។',
+                    viz: '<div class="chart-container"><canvas id="spendingChart"></canvas></div>'
+                },
+                recurring: {
+                    title: 'ប្រតិបត្តិការកើតឡើងដដែលៗ',
+                    description: 'ធ្វើស្វ័យប្រវត្តិកម្មការបញ្ចូលចំណូល និងចំណាយទៀងទាត់ដូចជាប្រាក់ខែ ថ្លៃជួល ឬការជាវ។ ប្រព័ន្ធអាចត្រូវបានកំណត់រចនាសម្ព័ន្ធដើម្បីបន្ថែមប្រតិបត្តិការទាំងនេះដោយស្វ័យប្រវត្តិនៅចន្លោះពេលកំណត់។',
+                    viz: `
+                        <h4 class="font-semibold text-gray-700 mb-4 text-center">ការទូទាត់ដែលនឹងមកដល់</h4>
+                         <div class="space-y-3">
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">Netflix</p><p class="text-sm text-gray-500">ការជាវប្រចាំខែ</p></div>
+                                <p class="font-semibold text-gray-600">ដល់កំណត់ក្នុង 5 ថ្ងៃ</p>
+                            </div>
+                            <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">ថ្លៃជួល</p><p class="text-sm text-gray-500">ការទូទាត់ប្រចាំខែ</p></div>
+                                <p class="font-semibold text-gray-600">ដល់កំណត់ក្នុង 10 ថ្ងៃ</p>
+                            </div>
+                        </div>
+                    `
+                },
+                'multi-currency': {
+                    title: 'គាំទ្រពហុរូបិយប័ណ្ណ',
+                    description: 'ជ្រើសរើសរូបិយប័ណ្ណចម្បងសម្រាប់ការរាយការណ៍ ប៉ុន្តែកត់ត្រាប្រតិបត្តិការជារូបិយប័ណ្ណណាមួយដែលអ្នកប្រើប្រាស់។ ប្រព័ន្ធប្រើប្រាស់អត្រាប្តូរប្រាក់តាមពេលវេលាជាក់ស្តែងដើម្បីបំប្លែង និងបង្រួបបង្រួមទិន្នន័យហិរញ្ញវត្ថុទាំងអស់បានត្រឹមត្រូវ។',
+                    viz: `
+                        <h4 class="font-semibold text-gray-700 mb-4 text-center">កំណត់ហេតុពហុរូបិយប័ណ្ណ</h4>
+                        <div class="space-y-3">
+                             <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">អាហារថ្ងៃត្រង់នៅប៉ារីស</p><p class="text-sm text-gray-500">បំប្លែងទៅ USD</p></div>
+                                <p class="font-semibold text-red-600">-$28.50 <span class="text-xs text-gray-400">(€25.00)</span></p>
+                            </div>
+                             <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                                <div><p class="font-medium">វត្ថុអនុស្សាវរីយ៍នៅតូក្យូ</p><p class="text-sm text-gray-500">បំប្លែងទៅ USD</p></div>
+                                <p class="font-semibold text-red-600">-$45.20 <span class="text-xs text-gray-400">(¥5,000)</span></p>
+                            </div>
+                        </div>
+                    `
+                }
+            };
+            
+            // Income and expense categories
+            const categories = {
+                income: ['ប្រាក់ខែ', 'អំណោយ', 'ការលក់', 'ផ្សេងៗ'],
+                expense: ['អាហារ', 'ដឹកជញ្ជូន', 'លំនៅដ្ឋាន', 'វិក្កយបត្រ', 'កម្សាន្ត', 'ការទិញទំនិញ', 'សុខភាព', 'ការអប់រំ', 'ផ្សេងៗ']
+            };
+
+            // Supported currencies
+            const currencies = ['USD', 'KHR', 'EUR', 'GBP', 'JPY', 'AUD', 'CAD'];
+
+            // Function to populate category and currency dropdowns
+            function populateDropdowns() {
+                // Populate categories
+                const transactionType = document.querySelector('input[name="type"]:checked').value;
+                categorySelect.innerHTML = ''; // Clear existing options
+                categories[transactionType].forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    categorySelect.appendChild(option);
+                });
+
+                // Populate currencies
+                currencySelect.innerHTML = ''; // Clear existing options
+                currencies.forEach(curr => {
+                    const option = document.createElement('option');
+                    option.value = curr;
+                    option.textContent = curr;
+                    currencySelect.appendChild(option);
+                });
+            }
+
+            // Function to update the display of recent transactions
+            function updateRecentTransactionsDisplay() {
+                if (transactions.length === 0) {
+                    recentTransactionsDiv.innerHTML = '<p class="text-gray-500 text-center" id="no-transactions-message">មិនទាន់មានប្រតិបត្តិការណាមួយត្រូវបានបញ្ចូលនៅឡើយទេ។</p>';
+                    return;
+                }
+
+                recentTransactionsDiv.innerHTML = ''; // Clear existing transactions
+                const displayCount = Math.min(transactions.length, 5); // Show last 5 transactions
+                for (let i = 0; i < displayCount; i++) {
+                    const transaction = transactions[transactions.length - 1 - i]; // Get from latest
+                    const typeClass = transaction.type === 'income' ? 'text-green-600' : 'text-red-600';
+                    const sign = transaction.type === 'income' ? '+' : '-';
+                    const transactionElement = `
+                        <div class="flex justify-between items-center bg-white p-3 rounded-lg shadow-sm">
+                            <div>
+                                <p class="font-medium">${transaction.category}</p>
+                                <p class="text-sm text-gray-500">${transaction.description || 'គ្មានការពិពណ៌នា'}</p>
+                                <p class="text-xs text-gray-400">${transaction.date}</p>
+                            </div>
+                            <p class="font-semibold ${typeClass}">${sign}${transaction.amount.toFixed(2)} ${transaction.currency}</p>
+                        </div>
+                    `;
+                    recentTransactionsDiv.insertAdjacentHTML('beforeend', transactionElement);
+                }
+            }
+
+            // Function to switch content tabs
+            function switchView(targetId) {
+                contentSections.forEach(section => {
+                    section.classList.remove('active');
+                    if (section.id === targetId) {
+                        section.classList.add('active');
+                    }
+                });
+                navButtons.forEach(button => {
+                    button.classList.toggle('active-nav', button.dataset.target === targetId);
+                    button.classList.toggle('inactive-nav', button.dataset.target !== targetId);
+                });
+                if(mobileNav.value !== targetId) {
+                    mobileNav.value = targetId;
+                }
+            }
+            
+            // Function to display feature details
+            function showFeature(featureId) {
+                const feature = featuresData[featureId];
+                if (!feature) return;
+
+                featureDisplay.innerHTML = `
+                    <h3 class="text-2xl font-bold text-gray-800 mb-3">${feature.title}</h3>
+                    <p class="text-gray-600 mb-6">${feature.description}</p>
+                    ${feature.viz}
+                `;
+                
+                document.querySelectorAll('.feature-button').forEach(btn => {
+                   btn.classList.toggle('active', btn.dataset.feature === featureId);
+                });
+
+                // Create chart for analysis section
+                if (featureId === 'analysis') {
+                    const ctx = document.getElementById('spendingChart')?.getContext('2d');
+                    if (ctx) {
+                        if (spendingChartInstance) {
+                            spendingChartInstance.destroy(); // Destroy existing chart instance
+                        }
+                        spendingChartInstance = new Chart(ctx, {
+                            type: 'doughnut',
+                            data: {
+                                labels: ['អាហារ', 'ដឹកជញ្ជូន', 'វិក្កយបត្រ', 'ការទិញទំនិញ', 'កម្សាន្ត'],
+                                datasets: [{
+                                    label: 'ការចំណាយ',
+                                    data: [450, 220, 180, 300, 150],
+                                    backgroundColor: [
+                                        '#fdba74', // orange-300
+                                        '#67e8f9', // cyan-300
+                                        '#86efac', // green-300
+                                        '#f9a8d4', // pink-300
+                                        '#a5b4fc', // indigo-300
+                                    ],
+                                    borderColor: '#f9fafb', // gray-50
+                                    borderWidth: 4
+                                }]
+                            },
+                            options: {
+                                responsive: true,
+                                maintainAspectRatio: false,
+                                plugins: {
+                                    legend: {
+                                        position: 'bottom',
+                                    },
+                                    tooltip: {
+                                        callbacks: {
+                                            label: function(context) {
+                                                return `${context.label}: $${context.raw}`;
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    // Destroy chart if not analysis section
+                    if (spendingChartInstance) {
+                        spendingChartInstance.destroy();
+                        spendingChartInstance = null;
+                    }
+                }
+            }
+
+            // Event listeners for navigation buttons
+            navButtons.forEach(button => {
+                button.addEventListener('click', () => switchView(button.dataset.target));
+            });
+
+            // Event listener for mobile navigation dropdown
+            mobileNav.addEventListener('change', (e) => switchView(e.target.value));
+            
+            // Event listener for feature list
+            if (featureList) {
+                featureList.addEventListener('click', (e) => {
+                    if (e.target.matches('.feature-button')) {
+                        showFeature(e.target.dataset.feature);
+                    }
+                });
+            }
+
+            // Event listener for data model cards (for expand/collapse)
+            dataModelCards.forEach(card => {
+                card.querySelector('header').addEventListener('click', () => {
+                    card.classList.toggle('open');
+                });
+            });
+
+            // Logic for transaction form
+            document.querySelectorAll('input[name="type"]').forEach(radio => {
+                radio.addEventListener('change', populateDropdowns); // Update categories when transaction type changes
+            });
+
+            transactionForm.addEventListener('submit', (e) => {
+                e.preventDefault(); // Prevent default form submission
+                const formData = new FormData(transactionForm);
+                const newTransaction = {
+                    amount: parseFloat(formData.get('amount')),
+                    type: formData.get('type'),
+                    category: formData.get('category'),
+                    description: formData.get('description'),
+                    date: formData.get('date'),
+                    currency: formData.get('currency')
+                };
+
+                // Simple validation
+                if (isNaN(newTransaction.amount) || newTransaction.amount <= 0) {
+                    alert('សូមបញ្ចូលចំនួនទឹកប្រាក់ត្រឹមត្រូវ។');
+                    return;
+                }
+
+                transactions.push(newTransaction); // Add transaction to array
+                updateRecentTransactionsDisplay(); // Update display
+                transactionForm.reset(); // Clear the form
+                dateInput.valueAsDate = new Date(); // Reset date to current
+                populateDropdowns(); // Re-populate categories based on default type
+            });
+
+            // Initialization on page load
+            switchView('overview'); // Show overview tab by default
+            showFeature('tracking'); // Show tracking feature by default
+            populateDropdowns(); // Populate dropdowns
+            dateInput.valueAsDate = new Date(); // Set default date to today
+            updateRecentTransactionsDisplay(); // Update recent transactions display
+        });
+    </script>
+</body>
+</html>
